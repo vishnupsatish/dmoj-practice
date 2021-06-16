@@ -29,6 +29,8 @@
 
 #define ll long long
 
+#define str string
+
 #define vi vector<int>
 #define vpi vector<pair<int, int>>
 #define vpl vector<pair<long long, long long>>
@@ -58,53 +60,46 @@
 
 using namespace std;
 
+const int NINF = -0x3f3f3f3f;
+const int INF = 0x3f3f3f3f;
+
 //---------------End of template-------------------------------
 
-const int MM = 1e5 + 2;
 
-int n, q, dsu[MM], siz[MM];
+vi a;
+string s;
+map<char, int> num = { {'I', 1}, {'V', 5}, {'X', 10}, {'L', 50}, {'C', 100}, {'D', 500}, {'M', 1000} };
 
-int find(int e) {
-    if (dsu[e] != e) dsu[e] = find(dsu[e]);
-    return dsu[e];
-}
 
-void create() {
-    for (int i = 1; i <= n; i++) {
-        dsu[i] = i;
-        siz[i] = 1;
+
+void vectorize() {
+    string cur = "";
+    cur += s[0];
+    for (int i = 1; i < s.size(); i++) {
+        if (cur[0] == s[i]) {
+            cur += s[i];
+        } else {
+            a.eb(num[cur[0]] * cur.length());
+            cur = s[i];
+        }
     }
-}
-
-void merge(int u, int v) {
-    int nu = find(u); int nv = find(v);
-    if (nu == nv) return;
-    siz[find(v)] += siz[find(u)];
-    dsu[find(u)] = find(v);
-
+    a.eb(num[cur[0]] * cur.length());
 }
 
 
 int main() {
 
-    cin >> n >> q;
-
-    create();
-
-    for (int t = 0; t < q; t++) {
-        int qu;
-        cin >> qu;
-        if (qu == 1) {
-            int u, v;
-            cin >> u >> v;
-            merge(u, v);
-
-        } else {
-            int s;
-            cin >> s;
-            cout << siz[find(s)] << el;
+    for (int _ = 0; _ < 5; _++) {
+        a.clear();
+        cin >> s;
+        vectorize();
+        int n = a.back();
+        for (int i = a.size() - 2; i >= 0; i--) {
+            if (a[i] < n) n = n - a[i];
+            else n += a[i];
         }
-    }
+        cout << n << el;
 
+    }
 
 }

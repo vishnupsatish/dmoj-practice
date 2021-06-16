@@ -29,6 +29,8 @@
 
 #define ll long long
 
+#define str string
+
 #define vi vector<int>
 #define vpi vector<pair<int, int>>
 #define vpl vector<pair<long long, long long>>
@@ -60,51 +62,45 @@ using namespace std;
 
 //---------------End of template-------------------------------
 
-const int MM = 1e5 + 2;
+const int MM = 1001;
 
-int n, q, dsu[MM], siz[MM];
-
-int find(int e) {
-    if (dsu[e] != e) dsu[e] = find(dsu[e]);
-    return dsu[e];
-}
-
-void create() {
-    for (int i = 1; i <= n; i++) {
-        dsu[i] = i;
-        siz[i] = 1;
-    }
-}
-
-void merge(int u, int v) {
-    int nu = find(u); int nv = find(v);
-    if (nu == nv) return;
-    siz[find(v)] += siz[find(u)];
-    dsu[find(u)] = find(v);
-
-}
-
+int n, m, p[MM];
+vpi adj[MM];
+pq<pi> q;
 
 int main() {
 
-    cin >> n >> q;
+    cin >> n >> m;
 
-    create();
+    for (int i = 2; i <= n; i++) p[i] = 1e9;
 
-    for (int t = 0; t < q; t++) {
-        int qu;
-        cin >> qu;
-        if (qu == 1) {
-            int u, v;
-            cin >> u >> v;
-            merge(u, v);
+    for (int i = 1; i <= m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[v].eb(u, w);
+        adj[u].eb(v, w);
 
-        } else {
-            int s;
-            cin >> s;
-            cout << siz[find(s)] << el;
+    }
+
+    q.emplace(0, 1);
+
+    while (!q.empty()) {
+        int dist = q.top().fi, u = q.top().se; q.pop();
+        for (auto al : adj[u]) {
+            int v = al.fi, w = al.se;
+
+            if (dist + w < p[v]) {
+                p[v] = dist + w;
+                q.emplace(p[v], v);
+            }
+
         }
     }
+
+    for (int i = 1; i <= n; i++) {
+        cout << (p[i] == 1e9 ? -1 : p[i]) << el;
+    }
+
 
 
 }

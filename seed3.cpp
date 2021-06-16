@@ -29,6 +29,8 @@
 
 #define ll long long
 
+#define str string
+
 #define vi vector<int>
 #define vpi vector<pair<int, int>>
 #define vpl vector<pair<long long, long long>>
@@ -58,53 +60,35 @@
 
 using namespace std;
 
+const int NINF = -0x3f3f3f3f;
+const int INF = 0x3f3f3f3f;
+
 //---------------End of template-------------------------------
 
 const int MM = 1e5 + 2;
 
-int n, q, dsu[MM], siz[MM];
-
-int find(int e) {
-    if (dsu[e] != e) dsu[e] = find(dsu[e]);
-    return dsu[e];
-}
-
-void create() {
-    for (int i = 1; i <= n; i++) {
-        dsu[i] = i;
-        siz[i] = 1;
-    }
-}
-
-void merge(int u, int v) {
-    int nu = find(u); int nv = find(v);
-    if (nu == nv) return;
-    siz[find(v)] += siz[find(u)];
-    dsu[find(u)] = find(v);
-
-}
+ll i, j, ans;
+ll n, a[MM];
 
 
 int main() {
 
-    cin >> n >> q;
+    fastio();
 
-    create();
+    cin >> i >> n >> j;
 
-    for (int t = 0; t < q; t++) {
-        int qu;
-        cin >> qu;
-        if (qu == 1) {
-            int u, v;
-            cin >> u >> v;
-            merge(u, v);
-
-        } else {
-            int s;
-            cin >> s;
-            cout << siz[find(s)] << el;
-        }
+    for (int h = 0; h < j; h++) {
+        int xi, xj, k;
+        cin >> xi >> xj >> k;
+        a[xi] += k;
+        a[xj + 1] -= k;
     }
 
+    for (int h = 1; h <= i; h++) {
+        a[h] += a[h - 1];
+        if (a[h] < n) ans++;
+    }
+
+    cout << ans << el;
 
 }

@@ -29,6 +29,8 @@
 
 #define ll long long
 
+#define str string
+
 #define vi vector<int>
 #define vpi vector<pair<int, int>>
 #define vpl vector<pair<long long, long long>>
@@ -60,51 +62,65 @@ using namespace std;
 
 //---------------End of template-------------------------------
 
-const int MM = 1e5 + 2;
+const int MM = 21;
 
-int n, q, dsu[MM], siz[MM];
+int r, c;
+char a[MM][MM];
+str cu;
+str ans = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
 
-int find(int e) {
-    if (dsu[e] != e) dsu[e] = find(dsu[e]);
-    return dsu[e];
+
+
+str mins(const str &s1, const str &s2) {
+    if (s1 > s2) return s2;
+    else return s1;
 }
 
-void create() {
-    for (int i = 1; i <= n; i++) {
-        dsu[i] = i;
-        siz[i] = 1;
-    }
-}
-
-void merge(int u, int v) {
-    int nu = find(u); int nv = find(v);
-    if (nu == nv) return;
-    siz[find(v)] += siz[find(u)];
-    dsu[find(u)] = find(v);
-
-}
 
 
 int main() {
 
-    cin >> n >> q;
+    cin >> r >> c;
 
-    create();
+    for (int i = 1; i <= r; i++) {
+        for (int j = 1; j <= c; j++) {
+            cin >> a[i][j];
 
-    for (int t = 0; t < q; t++) {
-        int qu;
-        cin >> qu;
-        if (qu == 1) {
-            int u, v;
-            cin >> u >> v;
-            merge(u, v);
+            if (a[i][j] == '#') {
+                if (cu.length() > 1) ans = mins(cu, ans);
+                cu = "";
+                continue;
+            }
 
-        } else {
-            int s;
-            cin >> s;
-            cout << siz[find(s)] << el;
+            cu += a[i][j];
+
+            if (j == c) {
+                if (cu.length() > 1) ans = mins(cu, ans);
+                cu = "";
+            }
         }
     }
+
+    for (int i = 1; i <= c; i++) {
+        for (int j = 1; j <= r; j++) {
+
+            if (a[j][i] == '#') {
+                if (cu.length() > 1) ans = mins(cu, ans);
+                cu = "";
+                continue;
+            }
+
+            cu += a[j][i];
+
+            if (j == r) {
+                if (cu.length() > 1) ans = mins(cu, ans);
+                cu = "";
+            }
+        }
+    }
+
+    cout << ans << el;
+
 
 
 }

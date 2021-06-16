@@ -60,51 +60,57 @@ using namespace std;
 
 //---------------End of template-------------------------------
 
-const int MM = 1e5 + 2;
+int k, v, pre = 0;
 
-int n, q, dsu[MM], siz[MM];
+vi s;
 
-int find(int e) {
-    if (dsu[e] != e) dsu[e] = find(dsu[e]);
-    return dsu[e];
+int cal(int n) {
+    return n * ((double)(n) / (double)(2) + 0.5);
 }
 
-void create() {
-    for (int i = 1; i <= n; i++) {
-        dsu[i] = i;
-        siz[i] = 1;
+int bs(int n) { // Binary search for the not greatest point such that those many nodes can form an SCC
+    int l = 0;
+    int r = min(n, 5000);
+
+    while (l < r) {
+        int mid = (l + r) / 2;
+        if (cal(mid) > n) {
+            r = mid;
+        } else {
+            l = mid + 1;
+        }
     }
-}
 
-void merge(int u, int v) {
-    int nu = find(u); int nv = find(v);
-    if (nu == nv) return;
-    siz[find(v)] += siz[find(u)];
-    dsu[find(u)] = find(v);
+    if (cal(l) == n) {
+        return l;
+    }
+    return l - 1;
 
 }
 
 
 int main() {
 
-    cin >> n >> q;
+    cin >> k;
 
-    create();
-
-    for (int t = 0; t < q; t++) {
-        int qu;
-        cin >> qu;
-        if (qu == 1) {
-            int u, v;
-            cin >> u >> v;
-            merge(u, v);
-
-        } else {
-            int s;
-            cin >> s;
-            cout << siz[find(s)] << el;
-        }
+    while (k != 0) {
+        int a = bs(k);
+        s.eb(a + 1);
+        k -= cal(a);
+        v += a + 1;
     }
 
+    cout << v << " " << v + s.size() - 1 << el;
+
+    for (auto e : s) {
+        for (int i = pre + 1; i < e + pre; i++) cout << i << " " << i + 1 << el;
+        cout << e + pre << " " << pre + 1 << el;
+
+        if (pre != 0) {
+            cout << pre - e + 1 << " " << e + pre << el;
+        }
+
+        pre += e;
+    }
 
 }

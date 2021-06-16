@@ -60,9 +60,10 @@ using namespace std;
 
 //---------------End of template-------------------------------
 
-const int MM = 1e5 + 2;
+const int MM = 1e6 + 2;
 
-int n, q, dsu[MM], siz[MM];
+int n, q, dsu[MM], a[MM], siz[MM];
+ll res[MM];
 
 int find(int e) {
     if (dsu[e] != e) dsu[e] = find(dsu[e]);
@@ -73,6 +74,7 @@ void create() {
     for (int i = 1; i <= n; i++) {
         dsu[i] = i;
         siz[i] = 1;
+        res[i] = a[i];
     }
 }
 
@@ -80,29 +82,33 @@ void merge(int u, int v) {
     int nu = find(u); int nv = find(v);
     if (nu == nv) return;
     siz[find(v)] += siz[find(u)];
+    res[find(v)] += res[find(u)];
     dsu[find(u)] = find(v);
 
 }
 
 
 int main() {
+    fastio();
 
     cin >> n >> q;
+
+    for (int i = 1; i <= n; i++) cin >> a[i];
 
     create();
 
     for (int t = 0; t < q; t++) {
-        int qu;
-        cin >> qu;
-        if (qu == 1) {
-            int u, v;
-            cin >> u >> v;
+        int ty;
+        cin >> ty;
+        if (ty == 1) {
+            int u, v; cin >> u >> v;
             merge(u, v);
-
-        } else {
-            int s;
-            cin >> s;
+        } else if (ty == 2) {
+            int s; cin >> s;
             cout << siz[find(s)] << el;
+        } else if (ty == 3) {
+            int s; cin >> s;
+            cout << res[find(s)] << el;
         }
     }
 
