@@ -39,7 +39,7 @@
 
 #define mt make_tuple
 
-#define dq deque<int>
+#define dq deque
 
 #define uset unordered_set
 
@@ -48,42 +48,33 @@ using namespace std;
 
 const int NINF = -0x3f3f3f3f;
 const int INF = 0x3f3f3f3f;
+const int MOD = 1e9 + 7;
 
 //---------------End of template-------------------------------
 
-const int MM = 1e5 + 2;
+const int MAXN = 1e5 + 2;
 
-int n, a[MM][4], dp[MM][16];
-
-
-int solve(int now, int mask) {
-    if (dp[now][mask] != -1) return dp[now][mask];
-    if (now > n - 1) return 0;
-    if (mask >= 16) return 0;
-
-    int ret = solve(now + 1, mask); // Try skipping and not choosing current item
-
-    for (int gr = 0; gr < 4; gr++) { // Try choosing current item for each grade
-        if ((mask & 1 << gr) != 0) continue;
-        if (a[now][gr] != -1) ret = max(ret, solve(now + 1, mask | 1 << gr) + a[now][gr]); // Recurse
-    }
-
-    return dp[now][mask] = ret;
-}
+int n, m, ar[MAXN], ans;
 
 
 int main() {
-    fastio();
 
-    memset(dp, -1, sizeof(dp));
+    fastio();
 
     cin >> n;
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < 4; j++) {
-            cin >> a[i][j];
-        }
+    for (int i = 1; i <= n; i++) {
+        cin >> ar[i]; ans += ar[i];
     }
 
-    cout << solve(0, 0) << el;
+    cin >> m;
+
+    for (int i = 1; i <= m; i++) {
+        int a, d; cin >> a >> d;
+        ans -= min(min(ar[a], ar[a + 1]), d);
+    }
+
+    cout << ans << el;
+
 }
+
