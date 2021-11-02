@@ -1,56 +1,22 @@
-#pragma GCC optimize("Ofast", "unroll-loops")
-
-#include <iostream>
-#include <iomanip>
-#include <vector>
-#include <deque>
-#include <algorithm>
-#include <numeric>
-#include <cmath>
-#include <queue>
-#include <functional>
-#include <stack>
-#include <map>
-#include <cstring>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-
-#define fastio() cin.tie(0);ios::sync_with_stdio(0);
-#define pii pair<int, int>
-#define fi first
-#define se second
-#define pll pair<long long, long long>
-#define mp make_pair
-#define el "\n"
-#define pq priority_queue
-#define ll long long
-#define ld long double
-#define mt make_tuple
-#define vi vector<int>
-#define pb push_back
-#define eb emplace_back
-#define dq deque
-#define uset unordered_set
-#define umap unordered_map
+#include <bits/stdc++.h>
 
 using namespace std;
 
-const int NINF = -0x3f3f3f3f;
-const int INF = 0x3f3f3f3f;
-const int MOD = 1e9 + 7;
-
-//---------------End of template-------------------------------
-
-// Idea: monostack store index, and ans is subtract index when it becomes greater than current element
+// Idea: monotonic stack will hold indexes, and will be monotonically decreasing.
+// Pop all from the top of the stack where current height is greater than the next
+// element in the stack's height, since then in the future you can only see the
+// current element, since it will be taller than the elements it popped, but shorter
+// than the elements left in stack, meaning those can still be blocking the view of
+// a future height. Then, subtract the current element and the stack's back, meaning,
+// that is the first element that blocks the view.
 
 const int MAXN = 1e6 + 3;
 
 int n, h[MAXN];
-vi ms;
+vector<int> ms;
 
 int main() {
-    fastio();
+    ios::sync_with_stdio(false); cin.tie(nullptr);
 
     cin >> n;
 
@@ -60,6 +26,6 @@ int main() {
         while (!ms.empty() && h[i] >= h[ms.back()]) ms.pop_back();
         if (ms.empty()) cout << i << ' ';
         else cout << i - ms.back() << ' ';
-        ms.eb(i);
+        ms.emplace_back(i);
     }
 }
