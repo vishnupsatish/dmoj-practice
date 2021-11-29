@@ -6,7 +6,9 @@ using namespace std;
 // then figure out that each largest element will appear N-i-1 choose k - 1 times where i is
 // the index of the element, in reverse. Since when that element must be there, there are k - 1
 // elements left to fill up the remaining k - 1 spots, and N-i-1 elements to pick from, excluding
-// the current one and any larger ones, then use choose with mod.
+// the current one and any larger ones, then use choose with mod. How to choose with mod? a/b mod m
+// where m is prime is a * b^(-1) mod m where b^(-1) is modular multiplicative inverse. b^(-1) is 
+// equal to b ^ (m-2). Use fast power!!!!!
 
 #define int long long
 
@@ -40,6 +42,8 @@ int choose(int n_, int r) {
 
 
 signed main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    
     cin >> n >> k;
 
     for (int i = 1; i <= n; i++) cin >> a[i];
