@@ -62,8 +62,9 @@ int main() {
     DSU dsu(n);
 
     while (dsu.num != 1) {
-        for (int c = 0; c < dsu.num - 1; c++) { // We increment c by one since when we merge two nodes it removes one of the elements in the comps vector
-            int u = dsu.comps[c], v = dsu.comps[c + 1];
+        for (int c = 0; c < dsu.num - 1; c++) { // We increment c by one since when we merge two nodes it removes one of the elements in the comps
+                                                // vector. This also first completes individual, smaller components then merges them.
+            int u = dsu.comps[0], v = dsu.comps[1];
             cout << "? " << dsu.children[u].size() << ' ' << dsu.children[v].size() << endl;
             for (int i = 0; i < dsu.children[u].size(); i++) cout << dsu.children[u][i] << (i != dsu.children[u].size() - 1 ? ' ' : '\n');
             for (int i = 0; i < dsu.children[v].size(); i++) cout << dsu.children[v][i] << (i != dsu.children[v].size() - 1? " " : "");
