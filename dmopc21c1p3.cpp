@@ -8,7 +8,11 @@ using namespace std;
 // can use DSU to store each acyclic graph, then query a component and another component.
 // We can then reverse all edges so they go from 'another component' to 'component'. Then,
 // we merge those components since we know that they are connected eventually and are acyclic
-// since all edges between them go to from 'another component' to 'component'
+// and since all edges between them go to from 'another component' to 'component'
+
+// If there are no nodes that go from a set A and a set B, we just union sets A and B and
+// move on since then we have confirmed that in that set of nodes all nodes go from
+// A -> B so therefore it is acyclic.
 
 const int MAXN = 303;
 const int MAXM = 44853;
@@ -49,8 +53,6 @@ struct DSU {
 };
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-
     cin >> n >> m;
 
     for (int i = 1; i <= m; i++) {
@@ -60,7 +62,7 @@ int main() {
     DSU dsu(n);
 
     while (dsu.num != 1) {
-        for (int c = 0; c < dsu.num - 1; c++) {
+        for (int c = 0; c < dsu.num - 1; c++) { // We increment c by one since when we merge two nodes it removes one of the elements in the comps vector
             int u = dsu.comps[c], v = dsu.comps[c + 1];
             cout << "? " << dsu.children[u].size() << ' ' << dsu.children[v].size() << endl;
             for (int i = 0; i < dsu.children[u].size(); i++) cout << dsu.children[u][i] << (i != dsu.children[u].size() - 1 ? ' ' : '\n');
