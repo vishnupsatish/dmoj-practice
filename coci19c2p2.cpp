@@ -11,7 +11,8 @@ using namespace std;
 // are no other arrangements that work because we have placed all type 1 and 4 pieces
 // and types 1 and 4 cannot be adjacent to types 1 and 4, respectively, and if we place
 // any 2s and 3s at the end, regardless of how many we place, the last thing will be the
-// same as if that 2 or 3 wasn't there. Therefore, the greedy algorithm works.
+// same as if that 2 or 3 wasn't there. If there are any 1s or 4s left, the pieces do not
+// have a valid arrangement. Therefore, the greedy algorithm works.
 
 int n, lst;
 deque<int> ans;
